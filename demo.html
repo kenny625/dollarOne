@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Page</title>
+</head>
+
+<body>
+    <p id="result"></p>
+    <canvas id="myCanvas" width="360" height="360"></canvas>
+    <script type="text/javascript">
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext('2d');
+        ctx.strokeStyle = '#000';
+
+        var ws;
+        var ip = "localhost";
+        ws = new WebSocket("ws://" + ip + ":8080");
+        ws.onopen = function() {
+            // Web Socket is connected, send data using send()
+        };
+        ws.onmessage = function(evt) {
+            var received_msg = evt.data;
+            console.log(received_msg);
+            var received_msg_obj = JSON.parse(received_msg);
+            switch (received_msg_obj.action) {
+                case "result":
+                    ctx.clearRect(0, 0, 360, 360);
+                    var pointsSize = received_msg_obj.points.length;
+                    var resultName = received_msg_obj.result.Name;
+                    ctx.beginPath();
+                    ctx.moveTo(received_msg_obj.points[0].X, received_msg_obj.points[0].Y);
+                    for (var i = 1; i < pointsSize; i++) {
+                        ctx.lineTo(received_msg_obj.points[i].X, received_msg_obj.points[i].Y);
+                    }
+                    ctx.closePath();
+                    ctx.stroke();
+                    document.getElementById('result').innerHTML = resultName;
+                    if(resultName == 'heart'){
+                        window.location.replace("http://stackoverflow.com");
+                    }
+                    
+                    break;
+                default:
+            }
+        };
+
+        ws.onclose = function() {
+            // websocket is closed.
+        };
+    </script>
+</body>
+
+</html>
