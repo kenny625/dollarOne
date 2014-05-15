@@ -11,10 +11,7 @@
         ws = new WebSocket("ws://" + ip + ":8080");
         ws.onopen = function() {
             // Web Socket is connected, send data using send()
-            var nameObj = new Object();
-            nameObj.action = "test";
-            nameObj.userName = "";
-            ws.send(JSON.stringify(nameObj));
+            
         };
         ws.onmessage = function(evt) {
             var received_msg = evt.data;

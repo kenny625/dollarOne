@@ -52,6 +52,11 @@ wss.on('connection', function (ws) {
                     addExistedGestures();
 //                    console.log(recognizer);
                                     console.log(myRecog.Recognize(message_obj.points, false));
+                    var resultObj = new Object();
+                    resultObj.action = "result";
+                    resultObj.result = myRecog.Recognize(message_obj.points, false);
+                    resultObj.points = message_obj.points;
+                    wss.broadcast(JSON.stringify(resultObj));
                 //                    console.log(custGestureObj);
                 break;
             default:
@@ -91,12 +96,6 @@ function writeToFile(data, filepath) {
 function appendToFile(data, filepath) {
     fs.appendFileSync(filepath, data);
 }
-
-
-
-
-
-
 
 
 
