@@ -4,14 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Demo Page</title>
+    <style>
+        #myCanvas{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        #myIframe{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height:100%;
+            z-index: 99;
+        }
+        #result{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 101;
+        }
+    </style>
 </head>
 
 <body>
     <p id="result"></p>
     <canvas id="myCanvas" width="360" height="360"></canvas>
+    <iframe id="myIframe" src="http://www.w3schools.com"></iframe>
     <script type="text/javascript">
         var canvas = document.getElementById('myCanvas');
         var ctx = canvas.getContext('2d');
+        var myIframe = document.getElementById('myIframe');
         ctx.strokeStyle = '#000';
 
         var ws;
@@ -38,7 +62,10 @@
                     ctx.stroke();
                     document.getElementById('result').innerHTML = resultName;
                     if(resultName == 'heart'){
-                        window.location.replace("http://stackoverflow.com");
+//                        window.location.replace("http://stackoverflow.com");
+                    myIframe.setAttribute("src","http://www.techbang.com/"); 
+                    }else if(resultName == 'circle'){
+                        myIframe.setAttribute("src","http://www.dcview.com/"); 
                     }
                     
                     break;
